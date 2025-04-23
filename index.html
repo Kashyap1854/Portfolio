@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spotify UI Clone</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+      body {
+        background-color: #121212;
+        color: white;
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+      }
+      .sidebar {
+        width: 80px;
+        background-color: #000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 10px;
+        gap: 15px;
+      }
+      .sidebar img {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: border 0.3s;
+      }
+      .sidebar img.active {
+        border: 2px solid #1db954;
+      }
+      .main {
+        flex: 1;
+        background-color: #181818;
+        padding: 20px;
+        overflow-y: auto;
+        scroll-behavior: smooth;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #101010;
+        padding: 10px 20px;
+        border-radius: 8px;
+      }
+      .topbar-left {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+      .topbar-left button {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+      }
+      .topbar-left input {
+        padding: 8px 12px;
+        width: 300px;
+        background: #333;
+        border: none;
+        border-radius: 20px;
+        color: white;
+      }
+      .topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+      .download-btn {
+        padding: 8px 16px;
+        background-color: #1db954;
+        border: none;
+        border-radius: 20px;
+        color: white;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      .download-btn:hover {
+        background-color: #1ed760;
+      }
+      .account-btn {
+        background: url("https://cdn-icons-png.flaticon.com/512/847/847969.png")
+          no-repeat center/cover;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      .album-section {
+        margin-top: 20px;
+        background-color: #282828;
+        padding: 20px;
+        border-radius: 12px;
+        animation: fadeIn 1s ease-in-out;
+      }
+      .album-info {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .album-info img {
+        width: 150px;
+        border-radius: 10px;
+      }
+      .album-text h1 {
+        font-size: 36px;
+      }
+      .album-text a {
+        color: #1db954;
+        text-decoration: none;
+      }
+      .album-controls {
+        margin-top: 15px;
+      }
+      .album-controls button {
+        padding: 10px 20px;
+        margin-right: 10px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .album-controls button:hover {
+        transform: scale(1.05);
+      }
+      .album-controls .play-btn {
+        background-color: #1db954;
+        color: white;
+      }
+      .album-controls .save-btn {
+        background-color: #333;
+        color: white;
+        border: 1px solid white;
+      }
+      .sections {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+      }
+      .sections button {
+        background: #333;
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      .sections button:hover {
+        background: #1db954;
+      }
+      .grid {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+      }
+      .card {
+        background-color: #242424;
+        padding: 15px;
+        border-radius: 10px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+      }
+      .card.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .card p {
+        margin-top: 8px;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <img
+        src="assets/solidity.png"
+        alt="Solidity"
+        class="active"
+        onclick="setActive(this)"
+      />
+      <img src="assets/react.png" alt="React" onclick="setActive(this)" />
+      <img src="assets/figma.png" alt="Figma" onclick="setActive(this)" />
+      <img src="assets/html.png" alt="HTML" onclick="setActive(this)" />
+    </div>
+
+    <div class="main">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button>🏠</button>
+          <input type="text" placeholder="What do you want to play?" />
+        </div>
+        <!----<div class="topbar-right">
+          <a href="B SAI KASHYAP.pdf" download class="download-btn"
+            >Download Resume</a
+          >
+          <div class="account-btn"></div>
+        </div>-->
+      </div>
+
+      <div class="album-section">
+        <div class="album-info">
+          <img src="assets/this is.jpg" alt="album cover" />
+          <div class="album-text">
+            <p>This Is B Sai Kashyap</p>
+            <h1>Blockchain and Full Stack Developer</h1>
+            <a href="B SAI KASHYAP.pdf">Resume</a>
+            <div class="album-controls">
+              <button class="play-btn" onclick="playAlbum()">Play</button>
+              <button class="save-btn" onclick="saveAlbum()">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sections">
+        <button onclick="filterContent('all')">All</button>
+        <button onclick="filterContent('music')">Music</button>
+        <button onclick="filterContent('podcasts')">Podcasts</button>
+      </div>
+
+      <div class="grid" id="playlistGrid">
+        <div class="card"><p>BADASS SONGS 🔥🔥🔥</p></div>
+        <div class="card"><p>Soft Soothing Instrumental Music...</p></div>
+        <div class="card"><p>Anirudh Ravichander Mix</p></div>
+        <div class="card"><p>Repeat Rewind</p></div>
+        <div class="card"><p>11Chaitra + MOSS</p></div>
+        <div class="card"><p>yung kai Mix</p></div>
+        <div class="card"><p>All Alone Again 🙄</p></div>
+        <div class="card"><p>bruce wayne playlist</p></div>
+      </div>
+    </div>
+
+    <script>
+      const cards = document.querySelectorAll(".card");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      cards.forEach((card) => {
+        observer.observe(card);
+      });
+
+      function playAlbum() {
+        alert("Playing Piano Relax album... 🎶");
+      }
+
+      function saveAlbum() {
+        alert("Album saved to your library! 💾");
+      }
+
+      function filterContent(type) {
+        const cards = document.querySelectorAll(".card");
+        cards.forEach((card) => {
+          if (type === "all") {
+            card.style.display = "block";
+          } else if (type === "music") {
+            card.style.display = card.textContent.toLowerCase().includes("mix")
+              ? "block"
+              : "none";
+          } else if (type === "podcasts") {
+            card.style.display = card.textContent
+              .toLowerCase()
+              .includes("rewind")
+              ? "block"
+              : "none";
+          }
+        });
+      }
+
+      function setActive(clickedImg) {
+        document
+          .querySelectorAll(".sidebar img")
+          .forEach((img) => img.classList.remove("active"));
+        clickedImg.classList.add("active");
+      }
+    </script>
+  </body>
+</html>
